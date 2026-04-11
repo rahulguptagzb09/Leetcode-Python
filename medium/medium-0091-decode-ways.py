@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/decode-ways/description/
+https://leetcode.com/problems/decode-ways/
 91. Decode Ways
 You have intercepted a secret message encoded as a string of numbers. The message is decoded via the following mapping:
 "1" -> 'A'
@@ -34,35 +34,46 @@ Constraints:
 1 <= s.length <= 100
 s contains only digits and may contain leading zero(s).
 """
+
 # Time - O(n)
 # Space - O(n)
 
+
 class Solution:
     def numDecodings(self, s: str) -> int:
-        # dp = { len(s): 1 }
+        # # Recursive caching
+        # cache = {len(s): 1}
+
         # def dfs(i):
-        #     if i in dp:
-        #         return dp[i]
+        #     if i in cache:
+        #         return cache[i]
         #     if s[i] == "0":
         #         return 0
         #     res = dfs(i + 1)
-        #     if (i + 1 < len(s) and (s[i] == "1" or s[i] == "2" and s[i + 1] in "0123456")):
+        #     if i + 1 < len(s) and (
+        #         s[i] == "1" or s[i] == "2" and s[i + 1] in "0123456"
+        #     ):
         #         res += dfs(i + 2)
-        #     dp[i] = res
+        #     cache[i] = res
         #     return res
+
         # return dfs(0)
-        
-        dp = { len(s): 1 }
+
+        # Dynamic Programming
+        dp = {len(s): 1}
         for i in range(len(s) - 1, -1, -1):
             if s[i] == "0":
                 dp[i] = 0
             else:
                 dp[i] = dp[i + 1]
-            if (i + 1 < len(s) and (s[i] == "1" or s[i] == "2" and s[i + 1] in "0123456")):
+            if i + 1 < len(s) and (
+                s[i] == "1" or s[i] == "2" and s[i + 1] in "0123456"
+            ):
                 dp[i] += dp[i + 2]
         return dp[0]
 
+
 sol = Solution()
-print(sol.numDecodings(s = "12"))
-print(sol.numDecodings(s = "226"))
-print(sol.numDecodings(s = "06"))
+print(sol.numDecodings(s="12"))
+print(sol.numDecodings(s="226"))
+print(sol.numDecodings(s="06"))
