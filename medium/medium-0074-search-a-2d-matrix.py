@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/search-a-2d-matrix/description/
+https://leetcode.com/problems/search-a-2d-matrix/
 74. Search a 2D Matrix
 You are given an m x n integer matrix matrix with the following two properties:
 Each row is sorted in non-decreasing order.
@@ -18,7 +18,8 @@ n == matrix[i].length
 1 <= m, n <= 100
 -104 <= matrix[i][j], target <= 104
 """
-# Time - O(logn)
+
+# Time - O(logn+logm)
 # Space - O(1)
 
 from typing import List
@@ -26,22 +27,23 @@ from typing import List
 
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
-        ROWS, COLS = len(matrix), len(matrix[0])
-        top, bottom = 0, ROWS - 1
+        # Binary Search
+        rows, cols = len(matrix), len(matrix[0])
+        top, bottom = 0, rows - 1
         while top <= bottom:
-            row  = (top + bottom) // 2
-            if target > matrix[row][-1]:
-                top  = row + 1
-            elif target < matrix[row][0]:
-                bottom = row - 1
+            mid_row = top + (bottom - top) // 2
+            if target > matrix[mid_row][-1]:
+                top = mid_row + 1
+            elif target < matrix[mid_row][0]:
+                bottom = mid_row - 1
             else:
                 break
-        if not(top <= bottom):
+        if not top <= bottom:
             return False
-        row = (top + bottom) // 2
-        l, r = 0, COLS - 1
+        row = top + (bottom - top) // 2
+        l, r = 0, cols - 1
         while l <= r:
-            m = (l + r) // 2
+            m = l + (r - l) // 2
             if target > matrix[row][m]:
                 l = m + 1
             elif target < matrix[row][m]:
@@ -50,6 +52,15 @@ class Solution:
                 return True
         return False
 
+
 sol = Solution()
-print(sol.searchMatrix(matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3))
-print(sol.searchMatrix(matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13))
+print(
+    sol.searchMatrix(
+        matrix=[[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], target=3
+    )
+)
+print(
+    sol.searchMatrix(
+        matrix=[[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], target=13
+    )
+)
