@@ -27,6 +27,7 @@ We could have used 2 sets to keep a record of rows/columns which need to be set 
 Hint 4
 We can use the first cell of every row and column as a flag. This flag would determine whether a row or column has been set to zero.
 """
+
 # Time - O(n*m)
 # Space - O(1)
 
@@ -38,33 +39,31 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        ROWS, COLS = len(matrix), len(matrix[0])
-        rowZero = False
-
+        # Math and Geometry
+        rows, cols = len(matrix), len(matrix[0])
+        row_zero = False
         # determine which rows/cols need to be zero
-        for r in range(ROWS):
-            for c in range(COLS):
+        for r in range(rows):
+            for c in range(cols):
                 if matrix[r][c] == 0:
                     matrix[0][c] = 0
                     if r > 0:
                         matrix[r][0] = 0
                     else:
-                        rowZero = True
-
-        for r in range(1, ROWS):
-            for c in range(1, COLS):
+                        row_zero = True
+        for r in range(1, rows):
+            for c in range(1, cols):
                 if matrix[0][c] == 0 or matrix[r][0] == 0:
                     matrix[r][c] = 0
-
         if matrix[0][0] == 0:
-            for r in range(ROWS):
+            for r in range(rows):
                 matrix[r][0] = 0
-
-        if rowZero:
-            for c in range(COLS):
+        if row_zero:
+            for c in range(cols):
                 matrix[0][c] = 0
         return matrix
 
+
 sol = Solution()
-print(sol.setZeroes(matrix = [[1,1,1],[1,0,1],[1,1,1]]))
-print(sol.setZeroes(matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]))
+print(sol.setZeroes(matrix=[[1, 1, 1], [1, 0, 1], [1, 1, 1]]))
+print(sol.setZeroes(matrix=[[0, 1, 2, 0], [3, 4, 5, 2], [1, 3, 1, 5]]))
