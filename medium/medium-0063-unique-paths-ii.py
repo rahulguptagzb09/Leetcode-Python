@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/unique-paths-ii/description/
+https://leetcode.com/problems/unique-paths-ii/
 63. Unique Paths II
 You are given an m x n integer array grid. There is a robot initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time.
 An obstacle and space are marked as 1 or 0 respectively in grid. A path that the robot takes cannot include any square that is an obstacle.
@@ -20,35 +20,42 @@ m == obstacleGrid.length
 n == obstacleGrid[i].length
 1 <= m, n <= 100
 obstacleGrid[i][j] is 0 or 1.
+Hint 1
+Use dynamic programming since, from each cell, you can move to the right or down.
+Hint 2
+assume dp[i][j] is the number of unique paths to reach (i, j). dp[i][j] = dp[i][j -1] + dp[i - 1][j]. Be careful when you encounter an obstacle. set its value in dp to 0.
 """
-# Tim e- O(n*m)
+
+# Time - O(n*m)
 # Space - O(n*m or n)
 
 from typing import List
 
 
 def uniquePathsWithObstacles(obstacleGrid: List[List[int]]) -> int:
-    # M, N = len(obstacleGrid), len(obstacleGrid[0])
-    # dp = {(M - 1, N - 1): 1}
+    m, n = len(obstacleGrid), len(obstacleGrid[0])
+    # cache = {(m - 1, n - 1): 1}
+
     # def dfs(r, c):
-    #     if r == M or c == N or obstacleGrid[r][c]:
+    #     if r == m or c == n or obstacleGrid[r][c]:
     #         return 0
-    #     if (r, c) in dp:
-    #         return dp[(r, c)]
-    #     dp[(r, c)] = dfs(r + 1, c) + dfs(r, c + 1)
-    #     return dp[(r, c)]
+    #     if (r, c) in cache:
+    #         return cache[(r, c)]
+    #     cache[(r, c)] = dfs(r + 1, c) + dfs(r, c + 1)
+    #     return cache[(r, c)]
+
     # return dfs(0, 0)
-    
-    M, N = len(obstacleGrid), len(obstacleGrid[0])
-    dp = [0] * N
-    dp[N - 1] = 1
-    for r in reversed(range(M)):
-        for c in reversed(range(N)):
+
+    dp = [0] * n
+    dp[n - 1] = 1
+    for r in reversed(range(m)):
+        for c in reversed(range(n)):
             if obstacleGrid[r][c]:
                 dp[c] = 0
-            elif c + 1 < N: 
+            elif c + 1 < n:
                 dp[c] = dp[c] + dp[c + 1]
     return dp[0]
 
-print(uniquePathsWithObstacles(obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]))
-print(uniquePathsWithObstacles(obstacleGrid = [[0,1],[0,0]]))
+
+print(uniquePathsWithObstacles(obstacleGrid=[[0, 0, 0], [0, 1, 0], [0, 0, 0]]))
+print(uniquePathsWithObstacles(obstacleGrid=[[0, 1], [0, 0]]))
