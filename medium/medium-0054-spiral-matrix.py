@@ -20,6 +20,7 @@ We go boundary by boundary and move inwards. That is the essential operation. Fi
 Hint 3
 Think about when you want to switch the progress on one of the indexes. If you progress on i out of [i, j], you'll shift in the same column. Similarly, by changing values for j, you'd be shifting in the same row. Also, keep track of the end of a boundary so that you can move inwards and then keep repeating. It's always best to simulate edge cases like a single column or a single row to see if anything breaks or not.
 """
+
 # Time - O(n*m)
 # Space - O(1)
 
@@ -28,6 +29,7 @@ from typing import List
 
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        # Math and Geometry
         res = []
         left, right = 0, len(matrix[0])
         top, bottom = 0, len(matrix)
@@ -40,18 +42,19 @@ class Solution:
             for i in range(top, bottom):
                 res.append(matrix[i][right - 1])
             right -= 1
-            if not(left < right and top < bottom):
+            if not (left < right and top < bottom):
                 break
             # get every i in te bottom row
             for i in range(right - 1, left - 1, -1):
                 res.append(matrix[bottom - 1][i])
             bottom -= 1
             # get every i in the left column
-            for i in range(bottom - 1 , top - 1, -1):
+            for i in range(bottom - 1, top - 1, -1):
                 res.append(matrix[i][left])
             left += 1
         return res
 
+
 sol = Solution()
-print(sol.spiralOrder(matrix = [[1,2,3],[4,5,6],[7,8,9]]))
-print(sol.spiralOrder(matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]))
+print(sol.spiralOrder(matrix=[[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+print(sol.spiralOrder(matrix=[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]))
