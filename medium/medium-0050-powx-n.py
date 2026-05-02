@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/powx-n/description/
+https://leetcode.com/problems/powx-n/
 50. Pow(x, n)
 Implement pow(x, n), which calculates x raised to the power n (i.e., xn).
 Example 1:
@@ -19,25 +19,28 @@ n is an integer.
 Either x is not zero or n > 0.
 -104 <= xn <= 104
 """
+
 # Time - O(logn)
 # Space - O(n)
 
+
 class Solution:
     def myPow(self, x: float, n: int) -> float:
-
-        def helper(x, n):
+        # Math and Geometry
+        def power(x, n):
             if x == 0:
                 return 0
             if n == 0:
                 return 1
-            res = helper(x, n // 2)
-            res = res * res
+            res = power(x, n // 2)
+            res *= res
             return x * res if n % 2 else res
 
-        res = helper(x, abs(n))
+        res = power(x, abs(n))
         return res if n >= 0 else 1 / res
 
+
 sol = Solution()
-print(sol.myPow(x = 2.00000, n = 10))
-print(sol.myPow(x = 2.10000, n = 3))
-print(sol.myPow(x = 2.00000, n = -2))
+print(sol.myPow(x=2.00000, n=10))
+print(sol.myPow(x=2.10000, n=3))
+print(sol.myPow(x=2.00000, n=-2))
