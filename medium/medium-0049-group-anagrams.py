@@ -20,6 +20,7 @@ Constraints:
 0 <= strs[i].length <= 100
 strs[i] consists of lowercase English letters.
 """
+
 # Time - O(m*n)
 # Space - O(m*n)
 
@@ -29,15 +30,17 @@ from typing import List
 
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        res = defaultdict(list) # mapping charcount to list of Anagrams
+        # Arrays & Hashing
+        res = defaultdict(list)  # char_count -> list of anagrams
         for s in strs:
-            count = [0] * 23 # a..z
+            count = [0] * 26  # a..z
             for c in s:
-                count[ord(c) - ord('a')] += 1
+                count[ord(c) - ord("a")] += 1
             res[tuple(count)].append(s)
-        return list(res.values())
+        return res.values()
+
 
 sol = Solution()
-print(sol.groupAnagrams(strs = ["eat","tea","tan","ate","nat","bat"]))
-print(sol.groupAnagrams(strs = [""]))
-print(sol.groupAnagrams(strs = ["a"]))
+print(sol.groupAnagrams(strs=["eat", "tea", "tan", "ate", "nat", "bat"]))
+print(sol.groupAnagrams(strs=[""]))
+print(sol.groupAnagrams(strs=["a"]))
