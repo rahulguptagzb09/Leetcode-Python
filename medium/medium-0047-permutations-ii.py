@@ -15,6 +15,7 @@ Constraints:
 1 <= nums.length <= 8
 -10 <= nums[i] <= 10
 """
+
 # Time - O(n*2^n)
 # Space - O(n)
 
@@ -25,7 +26,7 @@ class Solution:
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
         res = []
         perm = []
-        count = { n:0 for n in nums }
+        count = {n: 0 for n in nums}
         for n in nums:
             count[n] += 1
 
@@ -44,6 +45,7 @@ class Solution:
         dfs()
         return res
 
+
 sol = Solution()
-print(sol.permuteUnique(nums = [1,1,2]))
-print(sol.permuteUnique(nums = [1,2,3]))
+print(sol.permuteUnique(nums=[1, 1, 2]))
+print(sol.permuteUnique(nums=[1, 2, 3]))
