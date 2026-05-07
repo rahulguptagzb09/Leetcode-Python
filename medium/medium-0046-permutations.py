@@ -1,7 +1,7 @@
 """
 https://leetcode.com/problems/permutations/description/
 46. Permutations
-Given an array nums of distinct integers, return all the possible 
+Given an array nums of distinct integers, return all the possible
 permutations. You can return the answer in any order.
 Example 1:
 Input: nums = [1,2,3]
@@ -17,24 +17,39 @@ Constraints:
 -10 <= nums[i] <= 10
 All the integers of nums are unique.
 """
+
 # Time - O(n! * n^2)
-# Space - O(n! * n^2)
+# Space - O(n! * n or n! * n^2)
 
 from typing import List
 
 
-def permute(nums: List[int]) -> List[List[int]]:
-    perms = [[]]
-    for n in nums:
-        new_perms = []
-        for p in perms:
-            for i in range(len(p) + 1):
-                p_copy = p.copy()
-                p_copy.insert(i, n)
-                new_perms.append(p_copy)
-        perms = new_perms
-    return perms
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        # if len(nums) == 0:
+        #     return [[]]
+        # perms = self.permute(nums[1:])
+        # res = []
+        # for p in perms:
+        #     for i in range(len(p) + 1):
+        #         p_copy = p.copy()
+        #         p_copy.insert(i, nums[0])
+        #         res.append(p_copy)
+        # return res
 
-print(permute(nums = [1,2,3]))
-print(permute(nums = [0,1]))
-print(permute(nums = [1]))
+        perms = [[]]
+        for n in nums:
+            new_perms = []
+            for p in perms:
+                for i in range(len(p) + 1):
+                    p_copy = p.copy()
+                    p_copy.insert(i, n)
+                    new_perms.append(p_copy)
+            perms = new_perms
+        return perms
+
+
+sol = Solution()
+print(sol.permute(nums=[1, 2, 3]))
+print(sol.permute(nums=[0, 1]))
+print(sol.permute(nums=[1]))
