@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/multiply-strings/description/
+https://leetcode.com/problems/multiply-strings/
 43. Multiply Strings
 Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.
 Note: You must not use any built-in BigInteger library or convert the inputs to integer directly.
@@ -14,27 +14,31 @@ Constraints:
 num1 and num2 consist of digits only.
 Both num1 and num2 do not contain any leading zero, except the number 0 itself.
 """
+
 # Time - O(n*m)
 # Space - O(n+m)
 
+
 class Solution:
     def multiply(self, num1: str, num2: str) -> str:
+        # Math and Geometry
         if "0" in [num1, num2]:
-            return 0
+            return "0"
         res = [0] * (len(num1) + len(num2))
         num1, num2 = num1[::-1], num2[::-1]
-        for i1 in range(len(num1)):
-            for i2 in range(len(num2)):
-                digit = int(num1[i1]) * int(num2[i2])
+        for i1, n1 in enumerate(num1):
+            for i2, n2 in enumerate(num2):
+                digit = int(n1) * int(n2)
                 res[i1 + i2] += digit
-                res[i1 + i2 + 1] += (res[i1 + i2] // 10)
+                res[i1 + i2 + 1] += res[i1 + i2] // 10
                 res[i1 + i2] = res[i1 + i2] % 10
-        res, beg = res[::-1], 0
-        while beg < len(res) and res[beg] == 0:
-            beg += 1
-        res = map(str, res[beg:])
+        res, begin = res[::-1], 0
+        while begin < len(res) and res[begin] == 0:
+            begin += 1
+        res = map(str, res[begin:])
         return "".join(res)
 
+
 sol = Solution()
-print(sol.multiply(num1 = "2", num2 = "3"))
-print(sol.multiply(num1 = "123", num2 = "456"))
+print(sol.multiply(num1="2", num2="3"))
+print(sol.multiply(num1="123", num2="456"))
