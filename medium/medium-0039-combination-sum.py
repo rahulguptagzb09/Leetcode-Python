@@ -23,6 +23,7 @@ Constraints:
 All elements of candidates are distinct.
 1 <= target <= 40
 """
+
 # Time - O(2^n)
 # Space - O(n)
 
@@ -38,16 +39,19 @@ class Solution:
                 res.append(cur.copy())
                 return
             if i >= len(candidates) or total > target:
-                return            
+                return
+            # include candidates[i]
             cur.append(candidates[i])
             dfs(i, cur, total + candidates[i])
+            # dont include candidates[i]
             cur.pop()
             dfs(i + 1, cur, total)
 
         dfs(0, [], 0)
         return res
 
+
 sol = Solution()
-print(sol.combinationSum(candidates = [2,3,6,7], target = 7))
-print(sol.combinationSum(candidates = [2,3,5], target = 8))
-print(sol.combinationSum(candidates = [2], target = 1))
+print(sol.combinationSum(candidates=[2, 3, 6, 7], target=7))
+print(sol.combinationSum(candidates=[2, 3, 5], target=8))
+print(sol.combinationSum(candidates=[2], target=1))
