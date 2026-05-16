@@ -20,18 +20,23 @@ Follow up: Could you do this in one pass?
 Hint 1
 Maintain two pointers and update one with a delay of n steps.
 """
+
 # Time - O(n)
 # Space - O(1)
 
 from typing import Optional
+
 
 # Definition for singly-linked list.
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
+
+
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        # Linked List
         dummy = ListNode(0, head)
         left = dummy
         right = head
@@ -44,3 +49,32 @@ class Solution:
         # delete
         left.next = left.next.next
         return dummy.next
+
+
+# Function to create a linked list from a list
+def create_linked_list(values):
+    dummy = ListNode(0)
+    current = dummy
+    for val in values:
+        current.next = ListNode(val)
+        current = current.next
+    return dummy.next
+
+
+# Function to convert linked list to list for easy output
+def linked_list_to_list(head):
+    result = []
+    while head:
+        result.append(head.val)
+        head = head.next
+    return result
+
+
+# Test cases
+examples = [([1, 2, 3, 4, 5], 2), ([1], 1), ([1, 2], 1)]
+
+# Run and print results
+for values, n in examples:
+    head = create_linked_list(values)
+    new_head = Solution().removeNthFromEnd(head, n)
+    print(linked_list_to_list(new_head))
