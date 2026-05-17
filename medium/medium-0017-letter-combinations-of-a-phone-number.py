@@ -16,6 +16,7 @@ Constraints:
 0 <= digits.length <= 4
 digits[i] is a digit in the range ['2', '9'].
 """
+
 # Time - O(4^n)
 # Space - O(1)
 
@@ -35,6 +36,7 @@ class Solution:
             "8": "tuv",
             "9": "wxyz",
         }
+
         def backtrack(i, cur_str):
             if len(cur_str) == len(digits):
                 res.append(cur_str)
@@ -46,7 +48,8 @@ class Solution:
             backtrack(0, "")
         return res
 
+
 sol = Solution()
-print(sol.letterCombinations(digits = "23"))
-print(sol.letterCombinations(digits = ""))
-print(sol.letterCombinations(digits = "2"))
+print(sol.letterCombinations(digits="23"))
+print(sol.letterCombinations(digits=""))
+print(sol.letterCombinations(digits="2"))
