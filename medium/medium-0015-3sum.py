@@ -6,7 +6,7 @@ Notice that the solution set must not contain duplicate triplets.
 Example 1:
 Input: nums = [-1,0,1,2,-1,-4]
 Output: [[-1,-1,2],[-1,0,1]]
-Explanation: 
+Explanation:
 nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
 nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
 nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
@@ -30,6 +30,7 @@ For the two-sum problem, if we fix one of the numbers, say x, we have to scan th
 Hint 3
 The second train of thought for two-sum is, without changing the array, can we use additional space somehow? Like maybe a hash map to speed up the search?
 """
+
 # Time - O(n^2)
 # Space - O(n)
 
@@ -38,12 +39,13 @@ from typing import List
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
+        # Two Pointers
         res = []
         nums.sort()
         for i, a in enumerate(nums):
             if i > 0 and a == nums[i - 1]:
                 continue
-            l, r = i + 1, len(nums) -1 
+            l, r = i + 1, len(nums) - 1
             while l < r:
                 three_sum = a + nums[l] + nums[r]
                 if three_sum > 0:
@@ -57,7 +59,8 @@ class Solution:
                         l += 1
         return res
 
+
 sol = Solution()
-print(sol.threeSum(nums = [-1,0,1,2,-1,-4]))
-print(sol.threeSum(nums = [0,1,1]))
-print(sol.threeSum(nums = [0,0,0]))
+print(sol.threeSum(nums=[-1, 0, 1, 2, -1, -4]))
+print(sol.threeSum(nums=[0, 1, 1]))
+print(sol.threeSum(nums=[0, 0, 0]))
