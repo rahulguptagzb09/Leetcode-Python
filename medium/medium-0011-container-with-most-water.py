@@ -23,6 +23,7 @@ Try to use two-pointers. Set one pointer to the left and one to the right of the
 Hint 3
 How can you calculate the amount of water at each step?
 """
+
 # Time - O(n^2 or n)
 # Space - O(1)
 
@@ -31,13 +32,16 @@ from typing import List
 
 class Solution:
     def maxArea(self, height: List[int]) -> int:
+        # Two Pointers
+        # Brute Force
         # res = 0
-        # for l in range(len(height)):
+        # for l, l_h in enumerate(height):
         #     for r in range(l + 1, len(height)):
-        #         area = (r - l) * min(height[l], height[r])
+        #         area = (r - l) * min(l_h, height[r])
         #         res = max(res, area)
         # return res
 
+        # 2 pointer
         res = 0
         l, r = 0, len(height) - 1
         while l < r:
@@ -49,6 +53,7 @@ class Solution:
                 r -= 1
         return res
 
+
 sol = Solution()
-print(sol.maxArea(height = [1,8,6,2,5,4,8,3,7]))
-print(sol.maxArea(height = [1,1]))
+print(sol.maxArea(height=[1, 8, 6, 2, 5, 4, 8, 3, 7]))
+print(sol.maxArea(height=[1, 1]))
