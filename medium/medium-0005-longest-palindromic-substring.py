@@ -20,8 +20,10 @@ Hint 3
 Complexity based hint:
 If we use brute-force and check whether for every start and end position a substring is a palindrome we have O(n^2) start - end pairs and O(n) palindromic checks. Can we reduce the time for palindromic checks to O(1) by reusing some previous computation.
 """
-# Time  - O(n^2)
+
+# Time - O(n^2)
 # Space - O(n)
+
 
 class Solution:
     def longestPalindrome(self, s: str) -> str:
@@ -31,21 +33,22 @@ class Solution:
             # odd length
             l, r = i, i
             while l >= 0 and r < len(s) and s[l] == s[r]:
-                if (r - l + 1) > res_len:
-                    res = s[l:r+1]
+                if r - l + 1 > res_len:
+                    res = s[l : r + 1]
                     res_len = r - l + 1
                 l -= 1
                 r += 1
             # even length
             l, r = i, i + 1
             while l >= 0 and r < len(s) and s[l] == s[r]:
-                if (r - l + 1) > res_len:
-                    res = s[l:r+1]
+                if r - l + 1 > res_len:
+                    res = s[l : r + 1]
                     res_len = r - l + 1
                 l -= 1
                 r += 1
         return res
-        
+
+
 sol = Solution()
-print(sol.longestPalindrome(s = "babad"))
-print(sol.longestPalindrome(s = "cbbd"))
+print(sol.longestPalindrome(s="babad"))
+print(sol.longestPalindrome(s="cbbd"))
