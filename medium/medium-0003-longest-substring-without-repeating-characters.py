@@ -21,23 +21,27 @@ s consists of English letters, digits, symbols and spaces.
 Hint 1
 Generate all possible substrings & check for each substring if it's valid and keep updating maxLen accordingly.
 """
+
 # Time - O(n)
 # Space - O(n)
 
+
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
+        # Sliding Window
         char_set = set()
-        l = 0
         res = 0
-        for r in range(len(s)):
-            while s[r] in char_set:
+        l = 0
+        for r, c in enumerate(s):
+            while c in char_set:
                 char_set.remove(s[l])
                 l += 1
-            char_set.add(s[r])
+            char_set.add(c)
             res = max(res, r - l + 1)
         return res
 
+
 sol = Solution()
-print(sol.lengthOfLongestSubstring(s = "abcabcbb"))
-print(sol.lengthOfLongestSubstring(s = "bbbbb"))
-print(sol.lengthOfLongestSubstring(s = "pwwkew"))
+print(sol.lengthOfLongestSubstring(s="abcabcbb"))
+print(sol.lengthOfLongestSubstring(s="bbbbb"))
+print(sol.lengthOfLongestSubstring(s="pwwkew"))
