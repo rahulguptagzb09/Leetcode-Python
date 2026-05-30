@@ -1,5 +1,6 @@
 """
-https://leetcode.com/problems/delete-nodes-from-linked-list-present-in-array/description/
+https://leetcode.com/problems/delete-nodes-from-linked-list-present-in-array/
+Medium
 3217. Delete Nodes From Linked List Present in Array
 You are given an array of integers nums and the head of a linked list. Return the head of the modified linked list after removing all nodes from the linked list that have a value that exists in nums.
 Example 1:
@@ -29,6 +30,7 @@ Add all elements of nums into a Set.
 Hint 2
 Scan the list to check if the current element should be deleted by checking the Set.
 """
+
 # Time - O(n+m)
 # Space - O(n)
 
@@ -40,8 +42,12 @@ class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
+
+
 class Solution:
-    def modifiedList(self, nums: List[int], head: Optional[ListNode]) -> Optional[ListNode]:
+    def modifiedList(
+        self, nums: List[int], head: Optional[ListNode]
+    ) -> Optional[ListNode]:
         nums = set(nums)
         dummy = ListNode(0, head)
         prev = dummy
@@ -51,3 +57,34 @@ class Solution:
             else:
                 prev = prev.next
         return dummy.next
+
+
+# Example runner for the given Solution class
+def build_list(arr):
+    head = ListNode(arr[0])
+    cur = head
+    for v in arr[1:]:
+        cur.next = ListNode(v)
+        cur = cur.next
+    return head
+
+
+def to_list(head):
+    res = []
+    while head:
+        res.append(head.val)
+        head = head.next
+    return res
+
+
+# Test cases
+examples = [
+    ([1, 2, 3], [1, 2, 3, 4, 5]),
+    ([1], [1, 2, 1, 2, 1, 2]),
+    ([5], [1, 2, 3, 4]),
+]
+
+for nums, head_vals in examples:
+    head = build_list(head_vals)
+    new_head = Solution().modifiedList(nums, head)
+    print(to_list(new_head))
