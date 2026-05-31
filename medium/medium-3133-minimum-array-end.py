@@ -22,11 +22,14 @@ To merge x with another number v, keep the set bits of x untouched, for all the 
 Hint 3
 So the final answer is the “merge” of x and n - 1.
 """
-# Time - O(n)
+
+# Time - O(n or logn)
 # Space - O(1)
+
 
 class Solution:
     def minEnd(self, n: int, x: int) -> int:
+        # Bit Manipulation
         # res = x
         # for _ in range(n - 1):
         #     res += 1
@@ -35,15 +38,16 @@ class Solution:
 
         res = x
         i_x = 1
-        i_n = 1 # for n - 1
-        while i_n <= n-1:
+        i_n = 1  # for n - 1
+        while i_n <= n - 1:
             if i_x & x == 0:
                 if i_n & (n - 1):
                     res = res | i_x
-                i_n = i_n << 1
-            i_x = i_x << 1
+                i_n = i_n << 1  # bit shift right
+            i_x = i_x << 1  # bit shift right
         return res
-        
+
+
 sol = Solution()
-print(sol.minEnd(n = 3, x = 4))
-print(sol.minEnd(n = 2, x = 7))
+print(sol.minEnd(n=3, x=4))
+print(sol.minEnd(n=2, x=7))
