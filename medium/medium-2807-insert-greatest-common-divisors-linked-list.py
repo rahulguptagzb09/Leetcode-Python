@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/insert-greatest-common-divisors-in-linked-list/description/
+https://leetcode.com/problems/insert-greatest-common-divisors-in-linked-list/
 2807. Insert Greatest Common Divisors in Linked List
 Given the head of a linked list head, in which each node contains an integer value.
 Between every pair of adjacent nodes, insert a new node with a value equal to the greatest common divisor of them.
@@ -22,27 +22,56 @@ Constraints:
 The number of nodes in the list is in the range [1, 5000].
 1 <= Node.val <= 1000
 """
+
 # Time - O(n*m)
 # Space - O(1)
 
 from typing import Optional
+
 
 # Definition for singly-linked list.
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
+
+
 class Solution:
-    def insertGreatestCommonDivisors(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        
+    def insertGreatestCommonDivisors(
+        self, head: Optional[ListNode]
+    ) -> Optional[ListNode]:
+        # Math and Geometry
         def gcd(a, b):
             while b > 0:
                 a, b = b, a % b
             return a
-        
+
         cur = head
         while cur.next:
             n1, n2 = cur.val, cur.next.val
             cur.next = ListNode(gcd(n1, n2), cur.next)
             cur = cur.next.next
         return head
+
+
+# -------- Example 1 --------
+# Create linked list: 18 -> 6 -> 10 -> 3
+head = ListNode(18, ListNode(6, ListNode(10, ListNode(3))))
+result = Solution().insertGreatestCommonDivisors(head)
+# Print result
+while result:
+    print(result.val, end=" -> " if result.next else "")
+    result = result.next
+print()
+# Output: 18 -> 6 -> 6 -> 2 -> 10 -> 1 -> 3
+
+# -------- Example 2 --------
+# Create linked list: 7
+head = ListNode(7)
+result = Solution().insertGreatestCommonDivisors(head)
+# Print result
+while result:
+    print(result.val, end="")
+    result = result.next
+print()
+# Output: 7
