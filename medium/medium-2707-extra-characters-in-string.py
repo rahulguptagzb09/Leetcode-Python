@@ -22,49 +22,71 @@ Can we use Dynamic Programming here?
 Hint 2
 Define DP[i] as the min extra character if breaking up s[0:i] optimally.
 """
+
 # Time - O(n^3)
 # Space - O(n)
 
 from typing import List
 
+
 class TrieNode:
+
     def __init__(self):
         self.children = {}
-        self.word = False
+        self.end_of_word = False
+
 
 class Trie:
+
     def __init__(self, words):
         self.root = TrieNode()
         for w in words:
-            curr = self.root
+            cur = self.root
             for c in w:
-                if c not in curr.children:
-                    curr.children[c] = TrieNode()
-                curr = curr.children[c]
-            curr.word = True
+                if c not in cur.children:
+                    cur.children[c] = TrieNode()
+                cur = cur.children[c]
+            cur.end_of_word = True
 
-def minExtraChar(s: str, dictionary: List[str]) -> int:
-    # words = set(dictionary)
-    dp = { len(s): 0 }
-    trie = Trie(dictionary).root
 
-    def dfs(i):
-        if i in dp:
-            return dp[i]
-        
-        res = 1 + dfs(i + 1) # skip curr char
-        curr = trie        
-        for j in range(i, len(s)):
-            # if s[i:j+1] in words:
-            #     res = min(res, dfs(j + 1))
-            if s[j] not in curr.children:
-                break
-            curr = curr.children[s[j]]
-            if curr.word:    
-                res = min(res, dfs(j + 1))
-        dp[i] = res
-        return res
-    return dfs(0)
+class Solution:
 
-print(minExtraChar(s = "leetscode", dictionary = ["leet","code","leetcode"]))
-print(minExtraChar(s = "sayhelloworld", dictionary = ["hello","world"]))
+    def minExtraChar(self, s: str, dictionary: List[str]) -> int:
+        # words = set(dictionary)
+        # dp = {len(s): 0}
+
+        # def dfs(i):
+        #     if i in dp:
+        #         return dp[i]
+        #     res = 1 + dfs(i + 1)  # skip curr char
+        #     for j in range(i, len(s)):
+        #         if s[i : j + 1] in words:
+        #             res = min(res, dfs(j + 1))
+        #     dp[i] = res
+        #     return res
+
+        # return dfs(0)
+
+        dp = {len(s): 0}
+        trie = Trie(dictionary).root
+
+        def dfs(i):
+            if i in dp:
+                return dp[i]
+            res = 1 + dfs(i + 1)  # skip curr char
+            cur = trie
+            for j in range(i, len(s)):
+                if s[j] not in cur.children:
+                    break
+                cur = cur.children[s[j]]
+                if cur.end_of_word:
+                    res = min(res, dfs(j + 1))
+            dp[i] = res
+            return res
+
+        return dfs(0)
+
+
+sol = Solution()
+print(sol.minExtraChar(s="leetscode", dictionary=["leet", "code", "leetcode"]))
+print(sol.minExtraChar(s="sayhelloworld", dictionary=["hello", "world"]))
