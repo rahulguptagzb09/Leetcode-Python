@@ -1,5 +1,6 @@
 """
 https://leetcode.com/problems/count-unguarded-cells-in-the-grid/
+Medium
 2257. Count Unguarded Cells in the Grid
 You are given two integers m and n representing a 0-indexed m x n grid. You are also given two 2D integer arrays guards and walls where guards[i] = [rowi, coli] and walls[j] = [rowj, colj] represent the positions of the ith guard and jth wall respectively.
 A guard can see every cell in the four cardinal directions (north, east, south, or west) starting from their position unless obstructed by a wall or another guard. A cell is guarded if there is at least one guard that can see it.
@@ -28,6 +29,7 @@ Create a 2D array to represent the grid. Can you mark the tiles that can be seen
 Hint 2
 Iterate over the guards, and for each of the 4 directions, advance the current tile and mark the tile. When should you stop advancing?
 """
+
 # Time - O(m*n)
 # Space - O(m*n)
 
@@ -35,9 +37,11 @@ from typing import List
 
 
 class Solution:
-    def countUnguarded(self, m: int, n: int, guards: List[List[int]], walls: List[List[int]]) -> int:
+    def countUnguarded(
+        self, m: int, n: int, guards: List[List[int]], walls: List[List[int]]
+    ) -> int:
         grid = [[0] * n for _ in range(m)]
-        # 0  free, 1 - guard, 2 - wall, 3 - guardable
+        # 0 -> free, 1 -> guard, 2 -> wall, 3 -> guardable
         for r, c in guards:
             grid[r][c] = 1
         for r, c in walls:
@@ -56,7 +60,7 @@ class Solution:
                 if grid[r][col] in [1, 2]:
                     break
                 grid[r][col] = 3
-            for col in reversed(range(0, col)):
+            for col in reversed(range(0, c)):
                 if grid[r][col] in [1, 2]:
                     break
                 grid[r][col] = 3
@@ -65,11 +69,20 @@ class Solution:
             mark_guarded(r, c)
         res = 0
         for row in grid:
-            for n in row:
-                if n == 0:
+            for i in row:
+                if i == 0:
                     res += 1
         return res
 
+
 sol = Solution()
-print(sol.countUnguarded(m = 4, n = 6, guards = [[0,0],[1,1],[2,3]], walls = [[0,1],[2,2],[1,4]]))
-print(sol.countUnguarded(m = 3, n = 3, guards = [[1,1]], walls = [[0,1],[1,0],[2,1],[1,2]]))
+print(
+    sol.countUnguarded(
+        m=4, n=6, guards=[[0, 0], [1, 1], [2, 3]], walls=[[0, 1], [2, 2], [1, 4]]
+    )
+)
+print(
+    sol.countUnguarded(
+        m=3, n=3, guards=[[1, 1]], walls=[[0, 1], [1, 0], [2, 1], [1, 2]]
+    )
+)
