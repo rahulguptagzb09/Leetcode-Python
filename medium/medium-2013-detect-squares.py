@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/detect-squares/description/
+https://leetcode.com/problems/detect-squares/
 2013. Detect Squares
 You are given a stream of points on the X-Y plane. Design an algorithm that:
 Adds new points from the stream into a data structure. Duplicate points are allowed and should be treated as different points.
@@ -36,6 +36,7 @@ Maintain the frequency of all the points in a hash map.
 Hint 2
 Traverse the hash map and if any point has the same y-coordinate as the query point, consider this point and the query point to form one of the horizontal lines of the square.
 """
+
 # Time - O(n)
 # Space - O(n)
 
@@ -46,12 +47,14 @@ from typing import List
 class DetectSquares:
 
     def __init__(self):
+        # Math and Geometry
         self.pts_count = defaultdict(int)
         self.pts = []
 
     def add(self, point: List[int]) -> None:
         self.pts_count[tuple(point)] += 1
         self.pts.append(point)
+        return self.pts, self.pts_count
 
     def count(self, point: List[int]) -> int:
         res = 0
@@ -61,6 +64,7 @@ class DetectSquares:
                 continue
             res += self.pts_count[(x, py)] * self.pts_count[(px, y)]
         return res
+
 
 # Your DetectSquares object will be instantiated and called as such:
 # obj = DetectSquares()
