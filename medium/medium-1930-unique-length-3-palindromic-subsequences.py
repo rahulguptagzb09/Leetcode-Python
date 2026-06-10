@@ -33,6 +33,7 @@ What is the maximum number of length-3 palindromic strings?
 Hint 2
 How can we keep track of the characters that appeared to the left of a given position?
 """
+
 # Time - O(n)
 # Space - O(n)
 
@@ -41,7 +42,7 @@ from collections import Counter
 
 class Solution:
     def countPalindromicSubsequence(self, s: str) -> int:
-        res = set() # (mid_c, outer_c)
+        res = set()  # (mid_c, outer_c)
         left = set()
         right = Counter(s)
         for m in s:
@@ -52,7 +53,8 @@ class Solution:
             left.add(m)
         return len(res)
 
+
 sol = Solution()
-print(sol.countPalindromicSubsequence(s = "aabca"))
-print(sol.countPalindromicSubsequence(s = "adc"))
-print(sol.countPalindromicSubsequence(s = "bbcbaba"))
+print(sol.countPalindromicSubsequence(s="aabca"))
+print(sol.countPalindromicSubsequence(s="adc"))
+print(sol.countPalindromicSubsequence(s="bbcbaba"))
