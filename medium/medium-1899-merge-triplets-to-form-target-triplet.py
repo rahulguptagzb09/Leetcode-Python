@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/merge-triplets-to-form-target-triplet/description/
+https://leetcode.com/problems/merge-triplets-to-form-target-triplet/
 1899. Merge Triplets to Form Target Triplet
 A triplet is an array of three integers. You are given a 2D integer array triplets, where triplets[i] = [ai, bi, ci] describes the ith triplet. You are also given an integer array target = [x, y, z] that describes the triplet you want to obtain.
 To obtain target, you may apply the following operation on triplets any number of times (possibly zero):
@@ -32,6 +32,7 @@ Which triplets do you actually care about?
 Hint 2
 What property of max can you use to solve the problem?
 """
+
 # Time - O(n)
 # Space - O(1)
 
@@ -40,6 +41,7 @@ from typing import List
 
 class Solution:
     def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
+        # Greedy
         good = set()
         for t in triplets:
             if t[0] > target[0] or t[1] > target[1] or t[2] > target[2]:
@@ -49,7 +51,12 @@ class Solution:
                     good.add(i)
         return len(good) == 3
 
+
 sol = Solution()
-print(sol.mergeTriplets(triplets = [[2,5,3],[1,8,4],[1,7,5]], target = [2,7,5]))
-print(sol.mergeTriplets(triplets = [[3,4,5],[4,5,6]], target = [3,2,5]))
-print(sol.mergeTriplets(triplets = [[2,5,3],[2,3,4],[1,2,5],[5,2,3]], target = [5,5,5]))
+print(sol.mergeTriplets(triplets=[[2, 5, 3], [1, 8, 4], [1, 7, 5]], target=[2, 7, 5]))
+print(sol.mergeTriplets(triplets=[[3, 4, 5], [4, 5, 6]], target=[3, 2, 5]))
+print(
+    sol.mergeTriplets(
+        triplets=[[2, 5, 3], [2, 3, 4], [1, 2, 5], [5, 2, 3]], target=[5, 5, 5]
+    )
+)
