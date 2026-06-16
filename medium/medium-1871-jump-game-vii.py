@@ -9,7 +9,7 @@ Example 1:
 Input: s = "011010", minJump = 2, maxJump = 3
 Output: true
 Explanation:
-In the first step, move from index 0 to index 3. 
+In the first step, move from index 0 to index 3.
 In the second step, move from index 3 to index 5.
 Example 2:
 Input: s = "01101110", minJump = 2, maxJump = 3
@@ -24,6 +24,7 @@ Consider for each reachable index i the interval [i + a, i + b].
 Hint 2
 Use partial sums to mark the intervals as reachable.
 """
+
 # Time - O(n)
 # Space - O(n)
 
@@ -32,6 +33,7 @@ from collections import deque
 
 class Solution:
     def canReach(self, s: str, minJump: int, maxJump: int) -> bool:
+        # Breadth First Search BFS
         q, farthest = deque([0]), 0
         while q:
             i = q.popleft()
@@ -44,6 +46,7 @@ class Solution:
             farthest = i + maxJump
         return False
 
+
 sol = Solution()
-print(sol.canReach(s = "011010", minJump = 2, maxJump = 3))
-print(sol.canReach(s = "01101110", minJump = 2, maxJump = 3))
+print(sol.canReach(s="011010", minJump=2, maxJump=3))
+print(sol.canReach(s="01101110", minJump=2, maxJump=3))
