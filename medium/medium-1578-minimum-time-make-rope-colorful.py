@@ -1,5 +1,6 @@
 """
-https://leetcode.com/problems/minimum-time-to-make-rope-colorful/description/
+https://leetcode.com/problems/minimum-time-to-make-rope-colorful/
+Medium
 1578. Minimum Time to Make Rope Colorful
 Alice has n balloons arranged on a rope. You are given a 0-indexed string colors where colors[i] is the color of the ith balloon.
 Alice wants the rope to be colorful. She does not want two consecutive balloons to be of the same color, so she asks Bob for help. Bob can remove some balloons from the rope to make it colorful. You are given a 0-indexed integer array neededTime where neededTime[i] is the time (in seconds) that Bob needs to remove the ith balloon from the rope.
@@ -27,6 +28,7 @@ colors contains only lowercase English letters.
 Hint 1
 Maintain the running sum and max value for repeated letters.
 """
+
 # Time - O(n)
 # Space - O(1)
 
@@ -34,8 +36,8 @@ from typing import List
 
 
 def minCost(colors: str, neededTime: List[int]) -> int:
-    # If 2 adjacent baloons same color 
-    # Then pop the one wuth less neeeded time 
+    # If 2 adjacent baloons same color
+    # Then pop the one with less needed time
     l = res = 0
     for r in range(1, len(colors)):
         if colors[l] == colors[r]:
@@ -48,6 +50,7 @@ def minCost(colors: str, neededTime: List[int]) -> int:
             l = r
     return res
 
-print(minCost(colors = "abaac", neededTime = [1,2,3,4,5]))
-print(minCost(colors = "abc", neededTime = [1,2,3]))
-print(minCost(colors = "aabaa", neededTime = [1,2,3,4,1]))
+
+print(minCost(colors="abaac", neededTime=[1, 2, 3, 4, 5]))
+print(minCost(colors="abc", neededTime=[1, 2, 3]))
+print(minCost(colors="aabaa", neededTime=[1, 2, 3, 4, 1]))
