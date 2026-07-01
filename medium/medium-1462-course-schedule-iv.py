@@ -29,7 +29,14 @@ The prerequisites graph has no cycles.
 1 <= queries.length <= 104
 0 <= ui, vi <= n - 1
 ui != vi
+Hint 1
+Imagine if the courses are nodes of a graph. We need to build an array isReachable[i][j].
+Hint 2
+Start a bfs from each course i and assign for each course j you visit isReachable[i][j] = True.
+Hint 3
+Answer the queries from the isReachable array.
 """
+
 # Time - O(Q + N*(P+N) )
 # Space - O(1)
 
@@ -37,29 +44,40 @@ from collections import defaultdict
 from typing import List
 
 
-def checkIfPrerequisite(numCourses: int, prerequisites: List[List[int]], queries: List[List[int]]) -> List[bool]:
-    adj = defaultdict(list)
-    for prereq, crs in prerequisites:
-        adj[crs].append(prereq)
+class Solution:
+    def checkIfPrerequisite(
+        self, numCourses: int, prerequisites: List[List[int]], queries: List[List[int]]
+    ) -> List[bool]:
+        adj = defaultdict(list)
+        for pre, crs in prerequisites:
+            adj[crs].append(pre)
 
-    def dfs(crs):
-        if crs not in prereqMap:
-            prereqMap[crs] = set()
-            for prereq in adj[crs]:
-                prereqMap[crs] |= dfs(prereq) # union
-            prereqMap[crs].add(crs)
-        return prereqMap[crs]
+        def dfs(crs):
+            if crs not in pre_map:
+                pre_map[crs] = set()
+                for pre in adj[crs]:
+                    pre_map[crs] |= dfs(pre)  # set union
+                pre_map[crs].add(crs)
+            return pre_map[crs]
 
-    prereqMap = {} # map crs -> hashset of indirect prereqs
-    for crs in range(numCourses):
-        dfs(crs)
+        pre_map = {}  # crs -> set of indirect prereqs
+        for crs in range(numCourses):
+            dfs(crs)
+        res = []
+        for u, v in queries:
+            res.append(u in pre_map[v])
+        return res
 
-    res = []
-    for u, v in queries:
-        res.append(u in prereqMap[v])
 
-    return res
-
-print(checkIfPrerequisite(numCourses = 2, prerequisites = [[1,0]], queries = [[0,1],[1,0]]))
-print(checkIfPrerequisite(numCourses = 2, prerequisites = [], queries = [[1,0],[0,1]]))
-print(checkIfPrerequisite(numCourses = 3, prerequisites = [[1,2],[1,0],[2,0]], queries = [[1,0],[1,2]]))
+sol = Solution()
+print(
+    sol.checkIfPrerequisite(
+        numCourses=2, prerequisites=[[1, 0]], queries=[[0, 1], [1, 0]]
+    )
+)
+print(sol.checkIfPrerequisite(numCourses=2, prerequisites=[], queries=[[1, 0], [0, 1]]))
+print(
+    sol.checkIfPrerequisite(
+        numCourses=3, prerequisites=[[1, 2], [1, 0], [2, 0]], queries=[[1, 0], [1, 2]]
+    )
+)
