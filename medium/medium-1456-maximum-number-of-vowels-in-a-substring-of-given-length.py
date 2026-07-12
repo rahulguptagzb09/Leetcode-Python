@@ -24,11 +24,13 @@ Keep a window of size k and maintain the number of vowels in it.
 Hint 2
 Keep moving the window and update the number of vowels while moving. Answer is max number of vowels of any window.
 """
+
 # Time - O(n)
-# Space  - O(1)
+# Space - O(1)
+
 
 def maxVowels(s: str, k: int) -> int:
-    vowel = {'a', 'e', 'i', 'o', 'u'}
+    vowel = {"a", "e", "i", "o", "u"}
     l, cnt, res = 0, 0, 0
     for r in range(len(s)):
         cnt += 1 if s[r] in vowel else 0
@@ -36,9 +38,10 @@ def maxVowels(s: str, k: int) -> int:
             cnt -= 1 if s[l] in vowel else 0
             l += 1
         res = max(res, cnt)
-    
+
     return res
 
-print(maxVowels(s = "abciiidef", k = 3))
-print(maxVowels(s = "aeiou", k = 2))
-print(maxVowels(s = "leetcode", k = 3))
+
+print(maxVowels(s="abciiidef", k=3))
+print(maxVowels(s="aeiou", k=2))
+print(maxVowels(s="leetcode", k=3))
