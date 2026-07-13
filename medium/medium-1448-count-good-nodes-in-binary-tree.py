@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/count-good-nodes-in-binary-tree/description/
+https://leetcode.com/problems/count-good-nodes-in-binary-tree/
 1448. Count Good Nodes in Binary Tree
 Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
 Return the number of good nodes in the binary tree.
@@ -25,17 +25,25 @@ Each node's value is between [-10^4, 10^4].
 Hint 1
 Use DFS (Depth First Search) to traverse the tree, and constantly keep track of the current path maximum.
 """
+
 # Time - O(n)
 # Space - O(n)
 
+
 # Definition for a binary tree node.
 class TreeNode:
+
     def __init__(self, val=0, left=None, right=None):
         self.val = val
         self.left = left
         self.right = right
+
+
 class Solution:
+
     def goodNodes(self, root: TreeNode) -> int:
+        # Trees
+        # Depth First Search DFS Recursive
 
         def dfs(node, max_val):
             if not node:
@@ -46,4 +54,42 @@ class Solution:
             res += dfs(node.right, max_val)
             return res
 
-        return dfs(root, root.val)
+        return dfs(root, float("-inf"))
+
+
+# Helper to build a binary tree from a list
+def build_tree(values):
+    if not values:
+        return None
+    from collections import deque
+
+    iter_vals = iter(values)
+    root = TreeNode(next(iter_vals))
+    queue = deque([root])
+    while queue:
+        node = queue.popleft()
+        try:
+            left_val = next(iter_vals)
+            if left_val is not None:
+                node.left = TreeNode(left_val)
+                queue.append(node.left)
+            right_val = next(iter_vals)
+            if right_val is not None:
+                node.right = TreeNode(right_val)
+                queue.append(node.right)
+        except StopIteration:
+            break
+    return root
+
+
+# Example 1
+tree1 = build_tree([3, 1, 4, 3, None, 1, 5])
+print(Solution().goodNodes(tree1))  # Output: 4
+
+# Example 2
+tree2 = build_tree([3, 3, None, 4, 2])
+print(Solution().goodNodes(tree2))  # Output: 3
+
+# Example 3
+tree3 = build_tree([1])
+print(Solution().goodNodes(tree3))  # Output: 1
