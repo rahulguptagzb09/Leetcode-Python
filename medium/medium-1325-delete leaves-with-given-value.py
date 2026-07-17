@@ -6,7 +6,7 @@ Note that once you delete a leaf node with value target, if its parent node beco
 Example 1:
 Input: root = [1,2,3,2,null,2,4], target = 2
 Output: [1,null,3,null,4]
-Explanation: Leaf nodes in green with value (target = 2) are removed (Picture in left). 
+Explanation: Leaf nodes in green with value (target = 2) are removed (Picture in left).
 After removing, new nodes become leaf nodes with value (target = 2) (Picture in center).
 Example 2:
 Input: root = [1,3,3,3,2], target = 3
@@ -21,6 +21,7 @@ The number of nodes in the tree is in the range [1, 3000].
 Hint 1
 Use the DFS to reconstruct the tree such that no leaf node is equal to the target. If the leaf node is equal to the target, return an empty object instead.
 """
+
 # Time - O(n)
 # Space - O(n)
 
@@ -33,45 +34,133 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
-        
-def removeLeafNodes(root: Optional[TreeNode], target: int) -> Optional[TreeNode]:
-    # Recursive 
-    # if not root:
-    #     return None
-    # root.left = removeLeafNodes(root.left, target)
-    # root.right = removeLeafNodes(root.right, target)
-    # if not root.left and not root.right and root.val == target:
-    #     return None
-    # return root
-
-    # Interative
-    stack = [root]
-    visit = set()
-    parents = { root : None }
-    while stack:
-        node = stack.pop()
-        if not node.left and not node.right:
-            if node.val == target:
-                p = parents[node]
-                if not p:
-                    return None
-                if p.left == node:
-                    p.left = None
-                if p.right == node:
-                    p.right = None
-        elif node not in visit:
-            visit.add(node)
-            stack.append(node)
-            if node.left:
-                stack.append(node.left)
-                parents[node.left] = node
-            if node.right:
-                stack.append(node.right)
-                parents[node.right] = node
-    return root 
 
 
-# print(removeLeafNodes(root = [1,2,3,2,null,2,4], target = 2))
-# print(removeLeafNodes(root = [1,3,3,3,2], target = 3))
-# print(removeLeafNodes(root = [1,2,null,2,null,2], target = 2))
+class Solution:
 
+    def removeLeafNodes(
+        self, root: Optional[TreeNode], target: int
+    ) -> Optional[TreeNode]:
+        # Recursive
+        # if not root:
+        #     return None
+        # root.left = self.removeLeafNodes(root.left, target)
+        # root.right = self.removeLeafNodes(root.right, target)
+        # if not root.left and not root.right and root.val == target:
+        #     return None
+        # return root
+
+        # Iterative
+        stack = [root]
+        visit = set()
+        parents = {root: None}
+        while stack:
+            node = stack.pop()
+            if not node.left and not node.right:
+                if node.val == target:
+                    p = parents[node]
+                    if not p:
+                        return None
+                    if p.left == node:
+                        p.left = None
+                    if p.right == node:
+                        p.right = None
+            elif node not in visit:
+                visit.add(node)
+                stack.append(node)
+                if node.left:
+                    stack.append(node.left)
+                    parents[node.left] = node
+                if node.right:
+                    stack.append(node.right)
+                    parents[node.right] = node
+        return root
+
+
+#         stack = [root]
+#         visit = set()
+#         parents = {root: None}
+
+#         while stack:
+#             node = stack.pop()
+
+#             if not node.left and not node.right:
+#                 if node.val == target:
+#                     p = parents[node]
+#                     if p:
+#                         if p.left == node:
+#                             p.left = None
+#                         if p.right == node:
+#                             p.right = None
+
+#             elif node not in visit:
+#                 visit.add(node)
+#                 stack.append(node)
+#                 if node.left:
+#                     stack.append(node.left)
+#                     parents[node.left] = node
+#                 if node.right:
+#                     stack.append(node.right)
+#                     parents[node.right] = node
+
+#         return root
+
+
+def print_tree(root):
+    """Helper function to print the tree in level-order as a list."""
+    if not root:
+        return []
+
+    queue = [root]
+    result = []
+    while queue:
+        node = queue.pop(0)
+        if node:
+            result.append(node.val)
+            queue.append(node.left)
+            queue.append(node.right)
+        else:
+            result.append(None)
+
+    # Remove trailing None values for cleaner output
+    while result and result[-1] is None:
+        result.pop()
+
+    return result
+
+
+sol = Solution()
+
+# Example 1: root = [1, 2, 3, 2, None, 2, 4], target = 2
+root1 = TreeNode(1)
+root1.left = TreeNode(2)
+root1.right = TreeNode(3)
+root1.left.left = TreeNode(2)
+root1.right.left = TreeNode(2)
+root1.right.right = TreeNode(4)
+
+target1 = 2
+result1 = sol.removeLeafNodes(root1, target1)
+print(print_tree(result1))  # Expected: [1, None, 3, None, 4]
+
+# Example 2: root = [1, 3, 3, 3, 2], target = 3
+root2 = TreeNode(1)
+root2.left = TreeNode(3)
+root2.right = TreeNode(3)
+root2.left.left = TreeNode(3)
+root2.left.right = TreeNode(2)
+
+target2 = 3
+result2 = sol.removeLeafNodes(root2, target2)
+print(print_tree(result2))  # Expected: [1, 3, None, None, 2]
+
+# Example 3: root = [1, 2, None, 2, None, 2], target = 2
+root3 = TreeNode(1)
+root3.left = TreeNode(2)
+root3.right = None
+root3.left.left = TreeNode(2)
+root3.left.left.left = TreeNode(2)
+
+target3 = 2
+result3 = sol.removeLeafNodes(root3, target3)
+print(print_tree(result3))  # Expected: [1]
