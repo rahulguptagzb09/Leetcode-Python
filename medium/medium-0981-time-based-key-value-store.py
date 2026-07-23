@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/time-based-key-value-store/description/
+https://leetcode.com/problems/time-based-key-value-store/
 981. Time Based Key-Value Store
 Design a time-based key-value data structure that can store multiple values for the same key at different time stamps and retrieve the key's value at a certain timestamp.
 Implement the TimeMap class:
@@ -27,23 +27,26 @@ key and value consist of lowercase English letters and digits.
 All the timestamps timestamp of set are strictly increasing.
 At most 2 * 105 calls will be made to set and get.
 """
+
 # Time - O(logn)
 # Space - O(n)
 
-class TimeMap:
 
+class TimeMap:
+    # Binary Search
     def __init__(self):
-        self.store = {} # string -> list of [value, timestamp]
+        self.store = {}  # key -> list of (value, timestamp)
 
     def set(self, key: str, value: str, timestamp: int) -> None:
         if key not in self.store:
             self.store[key] = []
-        self.store[key].append([value, timestamp])
+        self.store[key].append((value, timestamp))
+        return self.store
 
     def get(self, key: str, timestamp: int) -> str:
         res = ""
         values = self.store.get(key, [])
-        # binary serach
+        # binary search
         l, r = 0, len(values) - 1
         while l <= r:
             m = l + (r - l) // 2
@@ -53,6 +56,7 @@ class TimeMap:
             else:
                 r = m - 1
         return res
+
 
 # Your TimeMap object will be instantiated and called as such:
 # obj = TimeMap()
