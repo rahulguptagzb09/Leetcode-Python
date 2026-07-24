@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/longest-turbulent-subarray/description/
+https://leetcode.com/problems/longest-turbulent-subarray/
 978. Longest Turbulent Subarray
 Given an integer array arr, return the length of a maximum size turbulent subarray of arr.
 A subarray is turbulent if the comparison sign flips between each adjacent pair of elements in the subarray.
@@ -24,30 +24,34 @@ Constraints:
 1 <= arr.length <= 4 * 104
 0 <= arr[i] <= 109
 """
+
 # Time - O(n)
 # Space - O(1)
 
 from typing import List
 
 
-def maxTurbulenceSize(arr: List[int]) -> int:
-    l, r = 0, 1
-    res, prev = 1, ""
-    while r < len(arr):
-        if arr[r - 1] > arr[r] and prev != ">":
-            res = max(res, r - l + 1)
-            r += 1
-            prev = ">"
-        elif arr[r - 1] < arr[r] and prev != "<":
-            res = max(res, r - l + 1)
-            r += 1
-            prev = "<"
-        else:
-            r = r + 1 if arr[r] == arr[r - 1] else r
-            l = r - 1
-            prev = ""
-    return res
+class Solution:
+    def maxTurbulenceSize(self, arr: List[int]) -> int:
+        l, r = 0, 1
+        res, prev = 1, ""
+        while r < len(arr):
+            if arr[r - 1] > arr[r] and prev != ">":
+                res = max(res, r - l + 1)
+                r += 1
+                prev = ">"
+            elif arr[r - 1] < arr[r] and prev != "<":
+                res = max(res, r - l + 1)
+                r += 1
+                prev = "<"
+            else:
+                r = r + 1 if arr[r] == arr[r - 1] else r
+                l = r - 1
+                prev = "="
+        return res
 
-print(maxTurbulenceSize(arr = [9,4,2,10,7,8,8,1,9]))
-print(maxTurbulenceSize(arr = [4,8,12,16]))
-print(maxTurbulenceSize(arr = [100]))
+
+sol = Solution()
+print(sol.maxTurbulenceSize(arr=[9, 4, 2, 10, 7, 8, 8, 1, 9]))
+print(sol.maxTurbulenceSize(arr=[4, 8, 12, 16]))
+print(sol.maxTurbulenceSize(arr=[100]))
