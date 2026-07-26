@@ -16,8 +16,9 @@ n == matrix.length == matrix[i].length
 1 <= n <= 100
 -100 <= matrix[i][j] <= 100
 """
+
 # Time - O(n^2)
-# Space   O(n^2 or 1)
+# Space - O(n^2 or 1)
 
 from typing import List
 
@@ -49,5 +50,6 @@ def minFallingPathSum(matrix: List[List[int]]) -> int:
             matrix[r][c] = matrix[r][c] + min(mid, left, right)
     return min(matrix[-1])
 
-print(minFallingPathSum(matrix = [[2,1,3],[6,5,4],[7,8,9]]))
-print(minFallingPathSum(matrix = [[-19,57],[-40,-5]]))
+
+print(minFallingPathSum(matrix=[[2, 1, 3], [6, 5, 4], [7, 8, 9]]))
+print(minFallingPathSum(matrix=[[-19, 57], [-40, -5]]))
