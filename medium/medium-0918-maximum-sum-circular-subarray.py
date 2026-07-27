@@ -27,25 +27,28 @@ What is an alternate way of representing a circular array so that it appears to 
 Hint 3
 The first case can be handled by the good old Kadane's algorithm. However, is there a smarter way of going about handling the second case as well?
 """
+
 # Time - O(n)
 # Space - O(1)
 
 from typing import List
 
 
-def maxSubarraySumCircular(nums: List[int]) -> int:
-    globMax, globMin = nums[0], nums[0]
-    curMax, curMin = 0, 0
-    total = 0
-    for n in nums:
-        curMax = max(curMax + n, n)
-        curMin = min(curMin + n, n)
-        total += n
-        globMax = max(globMax, curMax)
-        globMin = min(globMin, curMin)
+class Solution:
+    def maxSubarraySumCircular(self, nums: List[int]) -> int:
+        global_min, global_max = nums[0], nums[0]
+        cur_min, cur_max = 0, 0
+        total = 0
+        for n in nums:
+            cur_max = max(cur_max + n, n)
+            cur_min = min(cur_min + n, n)
+            total += n
+            global_max = max(global_max, cur_max)
+            global_min = min(global_min, cur_min)
+        return max(global_max, total - global_min) if global_max > 0 else global_max
 
-    return max(globMax, total - globMin) if globMax > 0 else globMax
 
-print(maxSubarraySumCircular(nums = [1,-2,3,-2]))
-print(maxSubarraySumCircular(nums = [5,-3,5]))
-print(maxSubarraySumCircular(nums = [-3,-2,-3]))
+sol = Solution()
+print(sol.maxSubarraySumCircular(nums=[1, -2, 3, -2]))
+print(sol.maxSubarraySumCircular(nums=[5, -3, 5]))
+print(sol.maxSubarraySumCircular(nums=[-3, -2, -3]))
