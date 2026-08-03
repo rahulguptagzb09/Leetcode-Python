@@ -17,6 +17,7 @@ Constraints:
 1 <= groupSize <= hand.length
 Note: This question is the same as 1296: https://leetcode.com/problems/divide-array-in-sets-of-k-consecutive-numbers/
 """
+
 # Time - O(nlogn)
 # Space - O(n)
 
@@ -26,6 +27,7 @@ from typing import List
 
 class Solution:
     def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
+        # Greedy
         if len(hand) % groupSize:
             return False
         count = {}
@@ -45,6 +47,7 @@ class Solution:
                     heapq.heappop(min_heap)
         return True
 
+
 sol = Solution()
-print(sol.isNStraightHand(hand = [1,2,3,6,2,3,4,7,8], groupSize = 3))
-print(sol.isNStraightHand(hand = [1,2,3,4,5], groupSize = 4))
+print(sol.isNStraightHand(hand=[1, 2, 3, 6, 2, 3, 4, 7, 8], groupSize=3))
+print(sol.isNStraightHand(hand=[1, 2, 3, 4, 5], groupSize=4))
