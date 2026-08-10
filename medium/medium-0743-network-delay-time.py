@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/network-delay-time/description/
+https://leetcode.com/problems/network-delay-time/
 743. Network Delay Time
 You are given a network of n nodes, labeled from 1 to n. You are also given times, a list of travel times as directed edges times[i] = (ui, vi, wi), where ui is the source node, vi is the target node, and wi is the time it takes for a signal to travel from source to target.
 We will send a signal from a given node k. Return the minimum time it takes for all the n nodes to receive the signal. If it is impossible for all the n nodes to receive the signal, return -1.
@@ -23,6 +23,7 @@ All the pairs (ui, vi) are unique. (i.e., no multiple edges.)
 Hint 1
 We visit each node at some time, and if that time is better than the fastest time we've reached this node, we travel along outgoing edges in sorted order. Alternatively, we could use Dijkstra's algorithm.
 """
+
 # Time - O(ElogV)
 # Space - O(V^2)
 
@@ -33,24 +34,27 @@ from typing import List
 
 class Solution:
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-        edges = defaultdict(list)
-        for u, v, w in times:
-            edges[u].append((v, w))
-        minHeap = [(0, k)]
+        # Advanced Graphs
+        # Dijkstra's algorithm Heap Priority Queue
+        adj = defaultdict(list)
+        for src, dst, wei in times:
+            adj[src].append((dst, wei))
+        min_heap = [(0, k)]
         visit = set()
-        t = 0
-        while minHeap:
-            w1, n1 = heapq.heappop(minHeap)
+        res = 0
+        while min_heap:
+            w1, n1 = heapq.heappop(min_heap)
             if n1 in visit:
                 continue
             visit.add(n1)
-            t = w1
-            for n2, w2 in edges[n1]:
+            res = max(res, w1)
+            for n2, w2 in adj[n1]:
                 if n2 not in visit:
-                    heapq.heappush(minHeap, (w1 + w2, n2))
-        return t if len(visit) == n else -1
+                    heapq.heappush(min_heap, (w2 + w1, n2))
+        return res if len(visit) == n else -1
+
 
 sol = Solution()
-print(sol.networkDelayTime(times = [[2,1,1],[2,3,1],[3,4,1]], n = 4, k = 2))
-print(sol.networkDelayTime(times = [[1,2,1]], n = 2, k = 1))
-print(sol.networkDelayTime(times = [[1,2,1]], n = 2, k = 2))
+print(sol.networkDelayTime(times=[[2, 1, 1], [2, 3, 1], [3, 4, 1]], n=4, k=2))
+print(sol.networkDelayTime(times=[[1, 2, 1]], n=2, k=1))
+print(sol.networkDelayTime(times=[[1, 2, 1]], n=2, k=2))
