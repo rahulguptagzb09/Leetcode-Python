@@ -17,6 +17,7 @@ Constraints:
 Hint 1
 If the temperature is say, 70 today, then in the future a warmer temperature must be either 71, 72, 73, ..., 99, or 100. We could remember when all of them occur next.
 """
+
 # Time - O(n)
 # Space - O(n)
 
@@ -25,16 +26,19 @@ from typing import List
 
 class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        # Stack
+        # Monotonic Decreasing Stack
         res = [0] * len(temperatures)
-        stack = [] # pair: [temp, index]
+        stack = []  # (temperature, index)
         for i, t in enumerate(temperatures):
             while stack and t > stack[-1][0]:
-                stack_t, stack_ind = stack.pop()
-                res[stack_ind] = (i - stack_ind)
-            stack.append([t, i])
+                _, stack_ind = stack.pop()
+                res[stack_ind] = i - stack_ind
+            stack.append((t, i))
         return res
 
+
 sol = Solution()
-print(sol.dailyTemperatures(temperatures = [73,74,75,71,69,72,76,73]))
-print(sol.dailyTemperatures(temperatures = [30,40,50,60]))
-print(sol.dailyTemperatures(temperatures = [30,60,90]))
+print(sol.dailyTemperatures(temperatures=[73, 74, 75, 71, 69, 72, 76, 73]))
+print(sol.dailyTemperatures(temperatures=[30, 40, 50, 60]))
+print(sol.dailyTemperatures(temperatures=[30, 60, 90]))
