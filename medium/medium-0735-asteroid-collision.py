@@ -23,8 +23,9 @@ asteroids[i] != 0
 Hint 1
 Say a row of asteroids is stable. What happens when a new asteroid is added on the right?
 """
+
 # Time - O(n)
-# Space - On)
+# Space - O(n)
 
 from typing import List
 
@@ -46,7 +47,8 @@ class Solution:
                 stack.append(a)
         return stack
 
+
 sol = Solution()
-print(sol.asteroidCollision(asteroids = [5,10,-5]))
-print(sol.asteroidCollision(asteroids = [8,-8]))
-print(sol.asteroidCollision(asteroids = [10,2,-5]))
+print(sol.asteroidCollision(asteroids=[5, 10, -5]))
+print(sol.asteroidCollision(asteroids=[8, -8]))
+print(sol.asteroidCollision(asteroids=[10, 2, -5]))
