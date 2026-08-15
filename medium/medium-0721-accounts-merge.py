@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/accounts-merge/description/
+https://leetcode.com/problems/accounts-merge/
 721. Accounts Merge
 Given a list of accounts where each element accounts[i] is a list of strings, where the first element accounts[i][0] is a name, and the rest of the elements are emails representing emails of the account.
 Now, we would like to merge these accounts. Two accounts definitely belong to the same person if there is some common email to both accounts. Note that even if two accounts have the same name, they may belong to different people as people could have the same name. A person can have any number of accounts initially, but all of their accounts definitely have the same name.
@@ -10,7 +10,7 @@ Output: [["John","john00@mail.com","john_newyork@mail.com","johnsmith@mail.com"]
 Explanation:
 The first and second John's are the same person as they have the common email "johnsmith@mail.com".
 The third John and Mary are different people as none of their email addresses are used by other accounts.
-We could return these lists in any order, for example the answer [['Mary', 'mary@mail.com'], ['John', 'johnnybravo@mail.com'], 
+We could return these lists in any order, for example the answer [['Mary', 'mary@mail.com'], ['John', 'johnnybravo@mail.com'],
 ['John', 'john00@mail.com', 'john_newyork@mail.com', 'johnsmith@mail.com']] would still be accepted.
 Example 2:
 Input: accounts = [["Gabe","Gabe0@m.co","Gabe3@m.co","Gabe1@m.co"],["Kevin","Kevin3@m.co","Kevin5@m.co","Kevin0@m.co"],["Ethan","Ethan5@m.co","Ethan4@m.co","Ethan0@m.co"],["Hanzo","Hanzo3@m.co","Hanzo1@m.co","Hanzo0@m.co"],["Fern","Fern5@m.co","Fern1@m.co","Fern0@m.co"]]
@@ -21,24 +21,28 @@ Constraints:
 1 <= accounts[i][j].length <= 30
 accounts[i][0] consists of English letters.
 accounts[i][j] (for j > 0) is a valid email.
+Hint 1
+For every pair of emails in the same account, draw an edge between those emails. The problem is about enumerating the connected components of this graph.
 """
+
 # Time - O(n)
 # Space - O(n)
 
 from collections import defaultdict
 from typing import List
 
+
 class UnionFind:
     def __init__(self, n) -> None:
         self.par = [i for i in range(n)]
         self.rank = [1] * n
-    
+
     def find(self, x):
         while x != self.par[x]:
             self.par[x] = self.par[self.par[x]]
             x = self.par[x]
         return x
-    
+
     def union(self, x1, x2):
         p1, p2 = self.find(x1), self.find(x2)
         if p1 == p2:
@@ -50,31 +54,48 @@ class UnionFind:
             self.par[p1] = p2
             self.rank[p2] += self.rank[p1]
         return True
-    
-def accountsMerge(accounts: List[List[str]]) -> List[List[str]]:
-
-    uf = UnionFind(len(accounts))
-    emailToAcc = {} # email -> index of acc
-
-    for i, a in enumerate(accounts):
-        for e in a[1:]:
-            if e in emailToAcc:
-                uf.union(i, emailToAcc[e]) 
-            else:
-                emailToAcc[e] = i
-
-    emailGroup = defaultdict(list) # index of acc -> index of emails
-    for e, i in emailToAcc.items():
-        leader = uf.find(i)   
-        emailGroup[leader].append(e)
-    
-    res = []
-    for i, emails in emailGroup.items():
-        name = accounts[i][0]
-        res.append([name] + sorted(emailGroup[i])) # array concat
-
-    return res
 
 
-print(accountsMerge(accounts = [["John","johnsmith@mail.com","john_newyork@mail.com"],["John","johnsmith@mail.com","john00@mail.com"],["Mary","mary@mail.com"],["John","johnnybravo@mail.com"]]))
-print(accountsMerge(accounts = [["Gabe","Gabe0@m.co","Gabe3@m.co","Gabe1@m.co"],["Kevin","Kevin3@m.co","Kevin5@m.co","Kevin0@m.co"],["Ethan","Ethan5@m.co","Ethan4@m.co","Ethan0@m.co"],["Hanzo","Hanzo3@m.co","Hanzo1@m.co","Hanzo0@m.co"],["Fern","Fern5@m.co","Fern1@m.co","Fern0@m.co"]]))
+class Solution:
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+        uf = UnionFind(len(accounts))
+        email_to_acc = {}  # email -> index of account
+        for i, a in enumerate(accounts):
+            for e in a[1:]:
+                if e in email_to_acc:
+                    uf.union(i, email_to_acc[e])
+                else:
+                    email_to_acc[e] = i
+        email_group = defaultdict(list)  # index of account -> list of emails
+        for e, i in email_to_acc.items():
+            leader = uf.find(i)
+            email_group[leader].append(e)
+        res = []
+        for i, _ in email_group.items():
+            name = accounts[i][0]
+            res.append([name] + sorted(email_group[i]))  # array concat
+        return res
+
+
+sol = Solution()
+print(
+    sol.accountsMerge(
+        accounts=[
+            ["John", "johnsmith@mail.com", "john_newyork@mail.com"],
+            ["John", "johnsmith@mail.com", "john00@mail.com"],
+            ["Mary", "mary@mail.com"],
+            ["John", "johnnybravo@mail.com"],
+        ]
+    )
+)
+print(
+    sol.accountsMerge(
+        accounts=[
+            ["Gabe", "Gabe0@m.co", "Gabe3@m.co", "Gabe1@m.co"],
+            ["Kevin", "Kevin3@m.co", "Kevin5@m.co", "Kevin0@m.co"],
+            ["Ethan", "Ethan5@m.co", "Ethan4@m.co", "Ethan0@m.co"],
+            ["Hanzo", "Hanzo3@m.co", "Hanzo1@m.co", "Hanzo0@m.co"],
+            ["Fern", "Fern5@m.co", "Fern1@m.co", "Fern0@m.co"],
+        ]
+    )
+)
