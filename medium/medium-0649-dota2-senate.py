@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/dota2-senate/description/
+https://leetcode.com/problems/dota2-senate/
 649. Dota2 Senate
 In the world of Dota2, there are two parties: the Radiant and the Dire.
 The Dota2 senate consists of senators coming from two parties. Now the Senate wants to decide on a change in the Dota2 game. The voting for this change is a round-based procedure. In each round, each senator can exercise one of the two rights:
@@ -11,47 +11,49 @@ Suppose every senator is smart enough and will play the best strategy for his ow
 Example 1:
 Input: senate = "RD"
 Output: "Radiant"
-Explanation: 
-The first senator comes from Radiant and he can just ban the next senator's right in round 1. 
-And the second senator can't exercise any rights anymore since his right has been banned. 
+Explanation:
+The first senator comes from Radiant and he can just ban the next senator's right in round 1.
+And the second senator can't exercise any rights anymore since his right has been banned.
 And in round 2, the first senator can just announce the victory since he is the only guy in the senate who can vote.
 Example 2:
 Input: senate = "RDD"
 Output: "Dire"
-Explanation: 
-The first senator comes from Radiant and he can just ban the next senator's right in round 1. 
-And the second senator can't exercise any rights anymore since his right has been banned. 
-And the third senator comes from Dire and he can ban the first senator's right in round 1. 
+Explanation:
+The first senator comes from Radiant and he can just ban the next senator's right in round 1.
+And the second senator can't exercise any rights anymore since his right has been banned.
+And the third senator comes from Dire and he can ban the first senator's right in round 1.
 And in round 2, the third senator can just announce the victory since he is the only guy in the senate who can vote.
 Constraints:
 n == senate.length
 1 <= n <= 104
 senate[i] is either 'R' or 'D'.
 """
+
 # Time - O(n)
 # Space - O(n)
 
 from collections import deque
 
 
-def predictPartyVictory(senate: str) -> str:
-    senate = list(senate)
-    D, R = deque(), deque()
+class Solution:
+    def predictPartyVictory(self, senate: str) -> str:
+        senate = list(senate)
+        d, r = deque(), deque()
+        for i, c in enumerate(senate):
+            if c == "R":
+                r.append(i)
+            else:
+                d.append(i)
+        while d and r:
+            d_turn = d.popleft()
+            r_turn = r.popleft()
+            if r_turn < d_turn:
+                r.append(d_turn + len(senate))
+            else:
+                d.append(r_turn + len(senate))
+        return "Radiant" if r else "Dire"
 
-    for i, c in enumerate(senate):
-        if c == "R":
-            R.append(i)
-        else:
-            D.append(i)
-    while D and R:
-        dTurn = D.popleft()
-        rTurn = R.popleft()
-        if rTurn < dTurn:
-            R.append(dTurn + len(senate))
-        else:
-            D.append(rTurn + len(senate))
 
-    return "Radient" if R else "Dire"
-
-print(predictPartyVictory(senate = "RD"))
-print(predictPartyVictory(senate = "RDD"))
+sol = Solution()
+print(sol.predictPartyVictory(senate="RD"))
+print(sol.predictPartyVictory(senate="RDD"))
