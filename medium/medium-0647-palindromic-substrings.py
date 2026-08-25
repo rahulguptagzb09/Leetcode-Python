@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/palindromic-substrings/description/
+https://leetcode.com/problems/palindromic-substrings/
 647. Palindromic Substrings
 Given a string s, return the number of palindromic substrings in it.
 A string is a palindrome when it reads the same backward as forward.
@@ -23,26 +23,32 @@ Hint 3
 Complexity based hint:
 If we use brute force and check whether for every start and end position a substring is a palindrome we have O(n^2) start - end pairs and O(n) palindromic checks. Can we reduce the time for palindromic checks to O(1) by reusing some previous computation?
 """
+
 # Time - O(n^2)
 # Space - O(1)
 
+
 class Solution:
     def countSubstrings(self, s: str) -> int:
+        # 1-D Dynamic Programming
+
+        def count_palindrome(s, l, r):
+            res = 0
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                res += 1
+                l -= 1
+                r += 1
+            return res
+
         res = 0
         for i in range(len(s)):
-            l, r = i, i
-            while l >= 0 and r < len(s) and s[l] == s[r]:
-                res += 1
-                l -= 1
-                r += 1
-            l = i
-            r = i + 1
-            while l >= 0 and r < len(s) and s[l] == s[r]:
-                res += 1
-                l -= 1
-                r += 1
+            # odd length
+            res += count_palindrome(s, i, i)
+            # even length
+            res += count_palindrome(s, i, i + 1)
         return res
 
+
 sol = Solution()
-print(sol.countSubstrings(s = "abc"))
-print(sol.countSubstrings(s = "aaa"))
+print(sol.countSubstrings(s="abc"))
+print(sol.countSubstrings(s="aaa"))
