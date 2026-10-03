@@ -26,6 +26,7 @@ Constraints:
 All the values of coins are unique.
 0 <= amount <= 5000
 """
+
 # Time - O(n*m)
 # Space - O(n*m or n*m or n)
 
@@ -34,8 +35,12 @@ from typing import List
 
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
-        # Recursive with memoization
+        # 2-D Dynamic Programming
+        # Unbounded Knapsack
+
+        # # Recursive with memoization caching
         # cache = {}
+
         # def dfs(i, a):
         #     if a == amount:
         #         return 1
@@ -47,9 +52,11 @@ class Solution:
         #         return cache[(i, a)]
         #     cache[(i, a)] = dfs(i, a + coins[i]) + dfs(i + 1, a)
         #     return cache[(i, a)]
+
         # return dfs(0, 0)
 
         # Dynamic programming
+        # Bottom Up
         # dp = [[0] * (len(coins) + 1) for i in range(amount + 1)]
         # dp[0] = [1] * (len(coins) + 1)
         # for a in range(1, amount + 1):
@@ -71,7 +78,8 @@ class Solution:
             dp = next_dp
         return dp[amount]
 
+
 sol = Solution()
-print(sol.change(amount = 5, coins = [1,2,5]))
-print(sol.change(amount = 3, coins = [2]))
-print(sol.change(amount = 10, coins = [10]))
+print(sol.change(amount=5, coins=[1, 2, 5]))
+print(sol.change(amount=3, coins=[2]))
+print(sol.change(amount=10, coins=[10]))
