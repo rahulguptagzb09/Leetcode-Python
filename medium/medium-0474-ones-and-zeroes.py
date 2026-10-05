@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/ones-and-zeroes/description/
+https://leetcode.com/problems/ones-and-zeroes/
 474. Ones and Zeroes
 You are given an array of binary strings strs and two integers m and n.
 Return the size of the largest subset of strs such that there are at most m 0's and n 1's in the subset.
@@ -20,28 +20,35 @@ Constraints:
 strs[i] consists only of digits '0' and '1'.
 1 <= m, n <= 100
 """
+
 # Time - O(m*n*s)
-# Space - O(m*n*s)
+# Space - O(m*n*s or m*n*s or m*n)
 
 from collections import defaultdict
 from typing import List
 
 
 def findMaxForm(strs: List[str], m: int, n: int) -> int:
-    # # Memorization
+    # Memoization
     # dp = {}
+
     # def dfs(i, m, n):
     #     if i == len(strs):
     #         return 0
     #     if (i, m, n) in dp:
     #         return dp[(i, m, n)]
-        
-    #     mCnt, nCnt = strs[i].count("0"), strs[i].count("1")
-
+    #     m_cnt = strs[i].count("0")
+    #     n_cnt = strs[i].count("1")
     #     dp[(i, m, n)] = dfs(i + 1, m, n)
-    #     if mCnt <= m and nCnt <= n:
-    #         dp[(i, m, n)] = max(dfs(i, m, n), 1 + dfs(i + 1, m - mCnt, n - nCnt))
+    #     if m_cnt <= m and n_cnt <= n:
+    #         dp[(i, m, n)] = max(
+    #             # not include str at i
+    #             dp[(i, m, n)],
+    #             # include str at i
+    #             1 + dfs(i + 1, m - m_cnt, n - n_cnt),
+    #         )
     #     return dp[(i, m, n)]
+
     # return dfs(0, m, n)
 
     # Dynamic Programming
@@ -52,9 +59,11 @@ def findMaxForm(strs: List[str], m: int, n: int) -> int:
     #     for M in range(0, m + 1):
     #         for N in range(0, n + 1):
     #             if mCnt <= M and nCnt <= N:
-    #                         dp[(i, M, N)] = max(dp[(i - 1, M, N)], 1 + dp[(i - 1, M - mCnt, N - nCnt)])
+    #                 dp[(i, M, N)] = max(
+    #                     1 + dp[(i - 1, M - mCnt, N - nCnt)], dp[(i - 1, M, N)]
+    #                 )
     #             else:
-    #                  dp[(i, M, N)] = dp[(i - 1, M, N)]
+    #                 dp[(i, M, N)] = dp[(i - 1, M, N)]
     # return dp[(len(strs) - 1, m, n)]
 
     # Dynamic Programming
@@ -66,5 +75,6 @@ def findMaxForm(strs: List[str], m: int, n: int) -> int:
                 dp[(M, N)] = max(dp[(M, N)], 1 + dp[(M - mCnt, N - nCnt)])
     return dp[(m, n)]
 
-print(findMaxForm(strs = ["10","0001","111001","1","0"], m = 5, n = 3))
-print(findMaxForm(strs = ["10","0","1"], m = 1, n = 1))
+
+print(findMaxForm(strs=["10", "0001", "111001", "1", "0"], m=5, n=3))
+print(findMaxForm(strs=["10", "0", "1"], m=1, n=1))
