@@ -20,6 +20,7 @@ Constraints:
 intervals[i].length == 2
 -5 * 104 <= starti < endi <= 5 * 104
 """
+
 # Time - O(nlon)
 # Space - O(1)
 
@@ -28,6 +29,8 @@ from typing import List
 
 class Solution:
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        # Intervals
+        # Greedy
         intervals.sort()
         res = 0
         prev_end = intervals[0][1]
@@ -36,10 +39,11 @@ class Solution:
                 prev_end = end
             else:
                 res += 1
-                prev_end = min(end, prev_end)           
+                prev_end = min(prev_end, end)
         return res
 
+
 sol = Solution()
-print(sol.eraseOverlapIntervals(intervals = [[1,2],[2,3],[3,4],[1,3]]))
-print(sol.eraseOverlapIntervals(intervals = [[1,2],[1,2],[1,2]]))
-print(sol.eraseOverlapIntervals(intervals = [[1,2],[2,3]]))
+print(sol.eraseOverlapIntervals(intervals=[[1, 2], [2, 3], [3, 4], [1, 3]]))
+print(sol.eraseOverlapIntervals(intervals=[[1, 2], [1, 2], [1, 2]]))
+print(sol.eraseOverlapIntervals(intervals=[[1, 2], [2, 3]]))
