@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/partition-equal-subset-sum/description/
+https://leetcode.com/problems/partition-equal-subset-sum/
 416. Partition Equal Subset Sum
 Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or false otherwise.
 Example 1:
@@ -14,6 +14,7 @@ Constraints:
 1 <= nums.length <= 200
 1 <= nums[i] <= 100
 """
+
 # Time - O(n* sum(n))
 # Space - O(sum(n))
 
@@ -22,7 +23,8 @@ from typing import List
 
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        if sum(nums) % 2:
+        # 1-D Dynamic Programming
+        if sum(nums) % 2 == 1:
             return False
         dp = set()
         dp.add(0)
@@ -30,13 +32,14 @@ class Solution:
         for i in range(len(nums) - 1, -1, -1):
             next_dp = set()
             for t in dp:
-                if (t + nums[i] == target):
+                if t + nums[i] == target:
                     return True
                 next_dp.add(t + nums[i])
                 next_dp.add(t)
             dp = next_dp
-        return True if target in dp else False
+        return target in dp
+
 
 sol = Solution()
-print(sol.canPartition(nums = [1,5,11,5]))
-print(sol.canPartition(nums = [1,2,3,5]))
+print(sol.canPartition(nums=[1, 5, 11, 5]))
+print(sol.canPartition(nums=[1, 2, 3, 5]))
