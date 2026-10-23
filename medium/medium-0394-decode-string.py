@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/decode-string/description/
+https://leetcode.com/problems/decode-string/
 394. Decode String
 Given an encoded string, return its decoded string.
 The encoding rule is: k[encoded_string], where the encoded_string inside the square brackets is being repeated exactly k times. Note that k is guaranteed to be a positive integer.
@@ -20,27 +20,30 @@ s consists of lowercase English letters, digits, and square brackets '[]'.
 s is guaranteed to be a valid input.
 All the integers in s are in the range [1, 300].
 """
+
 # Time - O(n)
 # Space - O(n)
+
 
 class Solution:
     def decodeString(self, s: str) -> str:
         stack = []
-        for i in range(len(s)):
-            if s[i] != "]":
-                stack.append(s[i])
+        for c in s:
+            if c != "]":
+                stack.append(c)
             else:
-                substr = ""
+                sub_str = ""
                 while stack[-1] != "[":
-                    substr = stack.pop() + substr
+                    sub_str = stack.pop() + sub_str
                 stack.pop()
                 k = ""
                 while stack and stack[-1].isdigit():
                     k = stack.pop() + k
-                stack.append(substr * int(k))
+                stack.append(sub_str * int(k))
         return "".join(stack)
 
+
 sol = Solution()
-print(sol.decodeString(s = "3[a]2[bc]"))
-print(sol.decodeString(s = "3[a2[c]]"))
-print(sol.decodeString(s = "2[abc]3[cd]ef"))
+print(sol.decodeString(s="3[a]2[bc]"))
+print(sol.decodeString(s="3[a2[c]]"))
+print(sol.decodeString(s="2[abc]3[cd]ef"))
