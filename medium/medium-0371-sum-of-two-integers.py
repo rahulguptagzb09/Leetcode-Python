@@ -11,17 +11,21 @@ Output: 5
 Constraints:
 -1000 <= a, b <= 1000
 """
+
 # Time - O(1)
 # Space - O(1)
 
+
 class Solution:
     def getSum(self, a: int, b: int) -> int:
-        while b != 0:
-            tmp = (a & b) << 1
+        # Bit Manipulation
+        while b:
+            tmp = (a & b) << 1  # bit shift left
             a = a ^ b
             b = tmp
         return a
 
+
 sol = Solution()
-print(sol.getSum(a = 1, b = 2))
-print(sol.getSum(a = 2, b = 3))
+print(sol.getSum(a=1, b=2))
+print(sol.getSum(a=2, b=3))
