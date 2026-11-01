@@ -19,6 +19,7 @@ Constraints:
 1 <= coins[i] <= 231 - 1
 0 <= amount <= 104
 """
+
 # Time - O(n*m)
 # Space - O(n)
 
@@ -27,6 +28,8 @@ from typing import List
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
+        # 1-D Dynamic Programming
+        # Bottom Up
         dp = [amount + 1] * (amount + 1)
         dp[0] = 0
         for a in range(1, amount + 1):
@@ -35,7 +38,8 @@ class Solution:
                     dp[a] = min(dp[a], 1 + dp[a - c])
         return dp[amount] if dp[amount] != amount + 1 else -1
 
+
 sol = Solution()
-print(sol.coinChange(coins = [1,2,5], amount = 11))
-print(sol.coinChange(coins = [2], amount = 3))
-print(sol.coinChange(coins = [1], amount = 0))
+print(sol.coinChange(coins=[1, 2, 5], amount=11))
+print(sol.coinChange(coins=[2], amount=3))
+print(sol.coinChange(coins=[1], amount=0))
