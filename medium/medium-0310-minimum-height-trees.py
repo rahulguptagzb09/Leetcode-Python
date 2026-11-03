@@ -22,6 +22,7 @@ The given input is guaranteed to be a tree and there will be no repeated edges.
 Hint 1
 How many MHTs can a graph have at most?
 """
+
 # Time - O(n^2)
 # Space - O(n)
 
@@ -29,29 +30,32 @@ from collections import defaultdict, deque
 from typing import List
 
 
-def findMinHeightTrees(n: int, edges: List[List[int]]) -> List[int]:
-    if n == 1:
-        return [0]
-    adj = defaultdict(list)
-    for n1, n2 in edges:
-        adj[n1].append(n2)
-        adj[n2].append(n1)
-    edge_cnt = {}
-    leaves = deque()
-    for src, neighbors in adj.items():
-        if len(neighbors) == 1:
-            leaves.append(src)
-        edge_cnt[src] = len(neighbors)
-    while leaves:
-        if n <= 2:
-            return list(leaves)
-        for i in range(len(leaves)):
-            node = leaves.popleft()
-            n -= 1
-            for nei in adj[node]:
-                edge_cnt[nei] -= 1
-                if edge_cnt[nei] == 1:
-                    leaves.append(nei)
+class Solution:
+    def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
+        if n == 1:
+            return [0]
+        adj = defaultdict(list)
+        for n1, n2 in edges:
+            adj[n1].append(n2)
+            adj[n2].append(n1)
+        edge_cnt = {}
+        leaves = deque()
+        for src, neighbors in adj.items():
+            if len(neighbors) == 1:
+                leaves.append(src)
+            edge_cnt[src] = len(neighbors)
+        while leaves:
+            if n <= 2:
+                return list(leaves)
+            for _ in range(len(leaves)):
+                node = leaves.popleft()
+                n -= 1
+                for nei in adj[node]:
+                    edge_cnt[nei] -= 1
+                    if edge_cnt[nei] == 1:
+                        leaves.append(nei)
 
-print(findMinHeightTrees(n = 4, edges = [[1,0],[1,2],[1,3]]))
-print(findMinHeightTrees(n = 6, edges = [[3,0],[3,1],[3,2],[3,4],[5,4]]))
+
+sol = Solution()
+print(sol.findMinHeightTrees(n=4, edges=[[1, 0], [1, 2], [1, 3]]))
+print(sol.findMinHeightTrees(n=6, edges=[[3, 0], [3, 1], [3, 2], [3, 4], [5, 4]]))
