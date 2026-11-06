@@ -17,6 +17,7 @@ Constraints:
 -104 <= nums[i] <= 104
 Follow up: Can you come up with an algorithm that runs in O(n log(n)) time complexity?
 """
+
 # Time - O(n^2)
 # Space - O(n)
 
@@ -25,6 +26,7 @@ from typing import List
 
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
+        # 1-D Dynamic Programming
         dp = [1] * len(nums)
         for i in range(len(nums) - 1, -1, -1):
             for j in range(i + 1, len(nums)):
@@ -32,7 +34,8 @@ class Solution:
                     dp[i] = max(dp[i], 1 + dp[j])
         return max(dp)
 
+
 sol = Solution()
-print(sol.lengthOfLIS(nums = [10,9,2,5,3,7,101,18]))
-print(sol.lengthOfLIS(nums = [0,1,0,3,2,3]))
-print(sol.lengthOfLIS(nums = [7,7,7,7,7,7,7]))
+print(sol.lengthOfLIS(nums=[10, 9, 2, 5, 3, 7, 101, 18]))
+print(sol.lengthOfLIS(nums=[0, 1, 0, 3, 2, 3]))
+print(sol.lengthOfLIS(nums=[7, 7, 7, 7, 7, 7, 7]))
