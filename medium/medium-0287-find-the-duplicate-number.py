@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/find-the-duplicate-number/description/
+https://leetcode.com/problems/find-the-duplicate-number/
 287. Find the Duplicate Number
 Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive.
 There is only one repeated number in nums, return this repeated number.
@@ -22,6 +22,7 @@ Follow up:
 How can we prove that at least one duplicate number must exist in nums?
 Can you solve the problem in linear runtime complexity?
 """
+
 # Time - O(n)
 # Space - O(1)
 
@@ -30,6 +31,7 @@ from typing import List
 
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
+        # Linked List
         slow, fast = 0, 0
         while True:
             slow = nums[slow]
@@ -43,7 +45,8 @@ class Solution:
             if slow == slow2:
                 return slow
 
+
 sol = Solution()
-print(sol.findDuplicate(nums = [1,3,4,2,2]))
-print(sol.findDuplicate(nums = [3,1,3,4,2]))
-print(sol.findDuplicate(nums = [3,3,3,3,3]))
+print(sol.findDuplicate(nums=[1, 3, 4, 2, 2]))
+print(sol.findDuplicate(nums=[3, 1, 3, 4, 2]))
+print(sol.findDuplicate(nums=[3, 3, 3, 3, 3]))
