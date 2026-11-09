@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/perfect-squares/description/
+https://leetcode.com/problems/perfect-squares/
 279. Perfect Squares
 Given an integer n, return the least number of perfect square numbers that sum to n.
 A perfect square is an integer that is the square of an integer; in other words, it is the product of some integer with itself. For example, 1, 4, 9, and 16 are perfect squares while 3 and 11 are not.
@@ -14,8 +14,10 @@ Explanation: 13 = 4 + 9.
 Constraints:
 1 <= n <= 104
 """
+
 # Time - O(n * sqrt n)
 # Space - O(n)
+
 
 class Solution:
     def numSquares(self, n: int) -> int:
@@ -29,6 +31,7 @@ class Solution:
                 dp[target] = min(dp[target], 1 + dp[target - square])
         return dp[n]
 
+
 sol = Solution()
-print(sol.numSquares(n = 12))
-print(sol.numSquares(n = 13))
+print(sol.numSquares(n=12))
+print(sol.numSquares(n=13))
