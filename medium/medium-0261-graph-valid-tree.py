@@ -1,5 +1,7 @@
 """
-https://leetcode.com/problems/graph-valid-tree/description/
+https://leetcode.com/problems/graph-valid-tree/
+https://neetcode.io/problems/valid-tree
+https://leetcode.ca/all/261.html
 261. Graph Valid Tree
 You have a graph of n nodes labeled from 0 to n - 1. You are given an integer n and a list of edges where edges[i] = [ai, bi] indicates that there is an undirected edge between nodes ai and bi in the graph.
 Return true if the edges of the given graph make up a valid tree, and false otherwise.
@@ -17,6 +19,7 @@ edges[i].length == 2
 ai != bi
 There are no self-loops or repeated edges.
 """
+
 # Time - O(E+V)
 # Space - O(E+V)
 
@@ -25,27 +28,31 @@ from typing import List
 
 class Solution:
     def validTree(self, n: int, edges: List[List[int]]) -> bool:
+        # Graphs
+        # Recursive Depth First Search DFS
         if not n:
             return True
-        adj = { i:[] for i in range(n) }
+
+        adj = {i: [] for i in range(n)}
         for n1, n2 in edges:
             adj[n1].append(n2)
             adj[n2].append(n1)
-
         visit = set()
+
         def dfs(i, prev):
             if i in visit:
                 return False
             visit.add(i)
-            for j in adj[i]:
-                if j == prev:
+            for nei in adj[i]:
+                if nei == prev:
                     continue
-                if not dfs(j, i):
+                if not dfs(nei, i):
                     return False
             return True
 
-        return dfs(0, -1) and len(visit) == n
+        return dfs(0, -1) and n == len(visit)
+
 
 sol = Solution()
-print(sol.validTree(n = 5, edges = [[0,1],[0,2],[0,3],[1,4]]))
-print(sol.validTree(n = 5, edges = [[0,1],[1,2],[2,3],[1,3],[1,4]]))
+print(sol.validTree(n=5, edges=[[0, 1], [0, 2], [0, 3], [1, 4]]))
+print(sol.validTree(n=5, edges=[[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]]))
