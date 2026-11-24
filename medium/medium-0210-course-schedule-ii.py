@@ -1,5 +1,5 @@
 """
-https://leetcode.com/problems/course-schedule-ii/description/
+https://leetcode.com/problems/course-schedule-ii/
 210. Course Schedule II
 There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
 For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
@@ -30,6 +30,7 @@ Topological Sort via DFS - A great video tutorial (21 minutes) on Coursera expla
 Hint 3
 Topological sort could also be done via BFS.
 """
+
 # Time - O(E+V)
 # Space - O(P+N)
 
@@ -38,16 +39,20 @@ from typing import List
 
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        # buidl adjacency list of preeqs
-        prereq = { c:[] for c in range(numCourses) }
+        # Graphs
+        # Recursive Depth First Search DFS
+        # Topological Sort
+        # build adjacency list of prereqs
+        adj = {c: [] for c in range(numCourses)}
         for crs, pre in prerequisites:
-            prereq[crs].append(pre)
+            adj[crs].append(pre)
         # a course has 3 possible states
         # visited -> crs has been added to output
         # visting -> crs has not beeen added to output, but added to cycle
         # univisited -> crs has not been added to output or cycle
-        output = []
-        visit, cycle = set(), set()
+        res = []
+        visit = set()
+        cycle = set()
 
         def dfs(crs):
             if crs in cycle:
@@ -55,20 +60,21 @@ class Solution:
             if crs in visit:
                 return True
             cycle.add(crs)
-            for pre in prereq[crs]:
+            for pre in adj[crs]:
                 if not dfs(pre):
                     return False
             cycle.remove(crs)
             visit.add(crs)
-            output.append(crs)
+            res.append(crs)
             return True
 
-        for c in range(numCourses):
-            if not dfs(c):
+        for crs in range(numCourses):
+            if not dfs(crs):
                 return []
-        return output
+        return res
+
 
 sol = Solution()
-print(sol.findOrder(numCourses = 2, prerequisites = [[1,0]]))
-print(sol.findOrder(numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]))
-print(sol.findOrder(numCourses = 1, prerequisites = []))
+print(sol.findOrder(numCourses=2, prerequisites=[[1, 0]]))
+print(sol.findOrder(numCourses=4, prerequisites=[[1, 0], [2, 0], [3, 1], [3, 2]]))
+print(sol.findOrder(numCourses=1, prerequisites=[]))
