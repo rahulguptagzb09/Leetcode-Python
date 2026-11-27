@@ -26,8 +26,10 @@ Constraints:
 word and prefix consist only of lowercase English letters.
 At most 3 * 104 calls in total will be made to insert, search, and startsWith.
 """
-# Time- O(n)
+
+# Time - O(n)
 # Space - O(n)
+
 
 class TrieNode:
 
@@ -35,7 +37,9 @@ class TrieNode:
         self.children = {}
         self.end_of_word = False
 
+
 class Trie:
+    # Tries Prefix Tree
 
     def __init__(self):
         self.root = TrieNode()
@@ -63,6 +67,7 @@ class Trie:
                 return False
             cur = cur.children[c]
         return True
+
 
 # Your Trie object will be instantiated and called as such:
 # obj = Trie()
